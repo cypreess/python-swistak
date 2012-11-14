@@ -1,4 +1,4 @@
 python-swistak
 ==============
 
-Python API for swistak.pl
+Python client for swistak.pl WebAPI
