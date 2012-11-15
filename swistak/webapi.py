@@ -77,7 +77,7 @@ class Swistak(object):
                 raise e
 
     @requires_session
-    def get_my_auctions(self, user_id, offset=0, limit=25):
+    def get_my_auctions(self, user_id, offset=0, limit=100):
         request = {
             'hash' : self.hash,
             'offset' : offset,
@@ -98,14 +98,14 @@ class Swistak(object):
             else:
                 raise e
 
-    def get_my_auctions_all(self, user_id, limit=25):
+    def get_my_auctions_all(self, user_id, limit=100):
         response = self.get_my_auctions(user_id=user_id, offset=0, limit=limit)
         items_count = int(response['total_auctions'])
         items_list = response['auctions']
 
         for offset in xrange(items_count/limit):
-            print offset
             response = self.get_my_auctions(user_id=user_id, offset=offset+1, limit=limit)
             items_list += response['auctions']
 
         return items_list
+
