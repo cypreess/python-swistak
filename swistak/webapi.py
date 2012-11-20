@@ -21,6 +21,8 @@ def requires_session(f):
 
 class Swistak(object):
 
+    _AUCTIONS_LIMIT = 100
+
     class ErrorUserPassword(Exception):
         pass
 
