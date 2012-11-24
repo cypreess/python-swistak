@@ -8,15 +8,15 @@ from functools import wraps
 def requires_session(f):
     @wraps(f)
     def wrapped(self, *args, **kwargs):
-        if self.hash is None:
-            self.get_hash()
+        if not self._is_session():
+            self._prepare_session()
         try:
             return f(self, *args, **kwargs)
         except Swistak.ErrorAuthorization:
             self._prepare_session()
             return f(self, *args, **kwargs)
-
     return wrapped
+
 
 
 class Swistak(object):
@@ -47,6 +47,12 @@ class Swistak(object):
         self.password = password
         self.url = url
         self.soap_client = Client(self.url)
+
+    def _is_session(self):
+        return not self.hash is None
+
+    def _prepare_session(self):
+        self.get_hash()
 
     def get_hash(self):
         request = {
